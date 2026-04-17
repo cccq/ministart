@@ -9,10 +9,10 @@
 -- Use this section to add custom general mappings. See `:h vim.keymap.set()`.
 
 -- Clear search and stop snippet on escape
-vim.keymap.set({ "i", "n", "s" }, "<esc>", function()
-  vim.cmd("noh")
-  return "<esc>"
-end, { expr = true, desc = "Escape and Clear hlsearch" })
+vim.keymap.set({ 'i', 'n', 's' }, '<esc>', function()
+  vim.cmd('noh')
+  return '<esc>'
+end, { expr = true, desc = 'Escape and Clear hlsearch' })
 
 -- An example helper to create a Normal mode mapping
 local nmap = function(lhs, rhs, desc)
