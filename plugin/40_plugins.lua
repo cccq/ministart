@@ -175,23 +175,3 @@ Config.now(function()
 
   vim.cmd('color catppuccin-nvim')
 end)
-
--- Markdown Rendering =========================================================
-
--- 'MeanderingProgrammer/render-markdown.nvim' provides a polished,
--- aesthetic look for Markdown files (headings, bullets, tables, etc.)
-later(function()
-  add({ 'https://github.com/MeanderingProgrammer/render-markdown.nvim' })
-
-  require("render-markdown").setup({
-    html = {
-      enabled = false,
-    },
-    latex = {
-      enabled = false,
-    },
-    yaml = {
-      enabled = false,
-    },
-  })
-end)
