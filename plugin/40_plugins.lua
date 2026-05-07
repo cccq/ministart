@@ -162,16 +162,40 @@ later(function() add({ 'https://github.com/rafamadriz/friendly-snippets' }) end)
 -- enabled in 'plugin/30_mini.lua' or other suggested 'mini.hues' based ones.
 Config.now(function()
   add({
-    { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
+    { src = 'https://github.com/catppuccin/nvim', name = 'catppuccin' },
   })
 
-  require("catppuccin").setup({
-    flavour = "auto",  -- latte, frappe, macchiato, mocha
+  require('catppuccin').setup({
+    flavour = 'auto',  -- latte, frappe, macchiato, mocha
     background = {
-      light = "latte",
-      dark = "frappe",
+      light = 'latte',
+      dark = 'frappe',
     },
   })
 
   vim.cmd('color catppuccin-nvim')
+end)
+
+-- User Configuration =========================================================
+
+-- Better glance at matched information, seamlessly jump between matched instances.
+later(function()
+  add({ 'https://github.com/kevinhwang91/nvim-hlslens' })
+
+  require('hlslens').setup()
+
+  local kopts = {noremap = true, silent = true}
+
+  vim.api.nvim_set_keymap('n', 'n',
+  [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
+  kopts)
+  vim.api.nvim_set_keymap('n', 'N',
+  [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
+  kopts)
+  vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+  vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+  vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
+  vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+
+  vim.api.nvim_set_keymap('n', '<Leader>l', '<Cmd>noh<CR>', kopts)
 end)
