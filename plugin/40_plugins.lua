@@ -187,7 +187,10 @@ end)
 later(function()
   add({ 'https://github.com/kevinhwang91/nvim-hlslens' })
 
-  require('hlslens').setup()
+  require('hlslens').setup({
+    calm_down = true,
+    nearest_only = true,
+  })
 
   local kopts = {noremap = true, silent = true}
 
@@ -201,6 +204,4 @@ later(function()
   vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
   vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
   vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
-
-  vim.api.nvim_set_keymap('n', '<Leader>l', '<Cmd>noh<CR>', kopts)
 end)
