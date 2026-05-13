@@ -98,6 +98,9 @@ end)
 -- inside 'neovim/nvim-lspconfig' plugin.
 --
 -- Add it now if file (and not 'mini.starter') is shown after startup.
+--
+-- Troubleshooting:
+-- - Run `:checkhealth vim.lsp` to see potential issues.
 now_if_args(function()
   add({ 'https://github.com/neovim/nvim-lspconfig' })
 
@@ -165,21 +168,17 @@ later(function() add({ 'https://github.com/rafamadriz/friendly-snippets' }) end)
 -- Beautiful, usable, well maintained color schemes outside of 'mini.nvim' and
 -- have full support of its highlight groups. Use if you don't like 'miniwinter'
 -- enabled in 'plugin/30_mini.lua' or other suggested 'mini.hues' based ones.
-Config.now(function()
-  add({
-    { src = 'https://github.com/catppuccin/nvim', name = 'catppuccin' },
-  })
-
-  require('catppuccin').setup({
-    flavour = 'auto',  -- latte, frappe, macchiato, mocha
-    background = {
-      light = 'latte',
-      dark = 'frappe',
-    },
-  })
-
-  vim.cmd('color catppuccin-nvim')
-end)
+-- Config.now(function()
+--  -- Install only those that you need
+--  add({
+--    'https://github.com/sainnhe/everforest',
+--    'https://github.com/Shatur/neovim-ayu',
+--    'https://github.com/ellisonleao/gruvbox.nvim',
+--  })
+--
+--   -- Enable only one
+--   vim.cmd('color everforest')
+-- end)
 
 -- User Configuration =========================================================
 
@@ -204,4 +203,21 @@ later(function()
   vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
   vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
   vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+end)
+
+-- Color scheme with automated light/dark mode transitions.
+Config.now(function()
+  add({
+    { src = 'https://github.com/catppuccin/nvim', name = 'catppuccin' },
+  })
+
+  require('catppuccin').setup({
+    flavour = 'auto',  -- latte, frappe, macchiato, mocha
+    background = {
+      light = 'latte',
+      dark = 'frappe',
+    },
+  })
+
+  vim.cmd('color catppuccin-nvim')
 end)
