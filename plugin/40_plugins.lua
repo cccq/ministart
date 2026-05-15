@@ -182,6 +182,24 @@ later(function() add({ 'https://github.com/rafamadriz/friendly-snippets' }) end)
 
 -- User Configuration =========================================================
 
+-- Color scheme with automated light/dark mode transitions.
+Config.now(function()
+  add({
+    { src = 'https://github.com/catppuccin/nvim', name = 'catppuccin' },
+  })
+
+  require('catppuccin').setup({
+    flavour = 'auto',  -- latte, frappe, macchiato, mocha
+    background = {
+      light = 'latte',
+      dark = 'frappe',
+    },
+  term_colors = true,
+  })
+
+  vim.cmd('color catppuccin-nvim')
+end)
+
 -- Better glance at matched information, seamlessly jump between matched instances.
 later(function()
   add({ 'https://github.com/kevinhwang91/nvim-hlslens' })
@@ -205,20 +223,73 @@ later(function()
   vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
 end)
 
--- Color scheme with automated light/dark mode transitions.
-Config.now(function()
-  add({
-    { src = 'https://github.com/catppuccin/nvim', name = 'catppuccin' },
-  })
+-- Git integration: show signs for added, removed, and modified lines
+later(function()
+  add({ 'https://github.com/lewis6991/gitsigns.nvim' })
+  require('gitsigns').setup({
+    on_attach = function(bufnr)
+      local gitsigns = require('gitsigns')
 
-  require('catppuccin').setup({
-    flavour = 'auto',  -- latte, frappe, macchiato, mocha
-    background = {
-      light = 'latte',
-      dark = 'frappe',
-    },
-  term_colors = true,
-  })
+      local function map(mode, l, r, desc, opts)
+        opts = opts or {}
+        opts.desc = desc
+        opts.buffer = bufnr
+        vim.keymap.set(mode, l, r, opts)
+      end
 
-  vim.cmd('color catppuccin-nvim')
+      -- Navigation
+      map('n', ']c', function()
+        if vim.wo.diff then
+          vim.cmd.normal({']c', bang = true})
+        else
+          gitsigns.nav_hunk('next')
+        end
+      end, 'Next Hunk')
+
+      map('n', '[c', function()
+        if vim.wo.diff then
+          vim.cmd.normal({'[c', bang = true})
+        else
+          gitsigns.nav_hunk('prev')
+        end
+      end, 'Prev Hunk')
+
+      -- Actions
+      map('n', '<leader>hs', gitsigns.stage_hunk, 'Stage Hunk')
+      map('n', '<leader>hr', gitsigns.reset_hunk, 'Reset Hunk')
+
+      map('v', '<leader>hs', function()
+        gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+      end, 'Stage Hunk')
+
+      map('v', '<leader>hr', function()
+        gitsigns.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+      end, 'Reset Hunk')
+
+      map('n', '<leader>hS', gitsigns.stage_buffer, 'Stage Buffer')
+      map('n', '<leader>hR', gitsigns.reset_buffer, 'Reset Buffer')
+      map('n', '<leader>hp', gitsigns.preview_hunk, 'Preview Hunk')
+      map('n', '<leader>hi', gitsigns.preview_hunk_inline, 'Preview Hunk Inline')
+
+      map('n', '<leader>hb', function()
+        gitsigns.blame_line({ full = true })
+      end, 'Blame Line (Full)')
+
+      map('n', '<leader>hd', gitsigns.diffthis, 'Diff This')
+
+      map('n', '<leader>hD', function()
+        gitsigns.diffthis('~')
+      end, 'Diff This ~')
+
+      map('n', '<leader>hQ', function() gitsigns.setqflist('all') end, 'Set Quickfix List (All)')
+      map('n', '<leader>hq', gitsigns.setqflist, 'Set Quickfix List')
+
+      -- Toggles
+      map('n', '<leader>tb', gitsigns.toggle_current_line_blame, 'Toggle Line Blame')
+      map('n', '<leader>tw', gitsigns.toggle_word_diff, 'Toggle Word Diff')
+
+      -- Text object
+      map({'o', 'x'}, 'ih', gitsigns.select_hunk, 'Select Hunk')
+    end
+  })
 end)
