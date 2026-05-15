@@ -4,5 +4,5 @@ if vim.g.neovide then
   vim.g.neovide_refresh_rate = 60
   vim.g.neovide_confirm_quit = true
   vim.g.neovide_cursor_vfx_mode = "railgun"
-  vim.keymap.set("n", "<leader>k", "<Cmd>NeovideForceClick<CR>", { silent = true })
+  vim.keymap.set("n", "<leader>k", "<Cmd>NeovideForceClick<CR>", { silent = true, desc = '*Click' })
 end
