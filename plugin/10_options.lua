@@ -19,7 +19,24 @@
 -- The next part (until `-- stylua: ignore end`) is aligned manually for easier
 -- reading. Consider preserving this or remove `-- stylua` lines to autoformat.
 
--- Providers & Netrw ==========================================================
+-- Patches ====================================================================
+
+-- System-specific initialization: detect the operating system and configure 
+-- global flags, C/C++ compilers, network proxies, and shell preferences to 
+-- ensure consistent performance and connectivity across devices.
+local sysname = vim.uv.os_uname().sysname
+_G.is_linux = sysname == "Linux"
+_G.is_mac = sysname == "Darwin"
+_G.is_win = sysname == "Windows_NT"
+
+if is_win then
+    vim.env.CC = "gcc"
+    vim.env.CXX = "g++"
+	vim.env.HTTP_PROXY = "http://127.0.0.1:7890"
+	vim.env.HTTPS_PROXY = "http://127.0.0.1:7890"
+	vim.opt.shell = "pwsh -NoLogo"
+end
+
 -- disable provider check
 vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0
@@ -48,6 +65,7 @@ if vim.fn.exists('syntax_on') ~= 1 then vim.cmd('syntax enable') end
 -- UI =========================================================================
 vim.o.breakindent    = true       -- Indent wrapped lines to match line start
 vim.o.breakindentopt = 'list:-1'  -- Add padding for lists (if 'wrap' is set)
+vim.o.colorcolumn    = '+1'       -- Draw column on the right of maximum width
 vim.o.cursorline     = true       -- Enable current line highlighting
 vim.o.linebreak      = true       -- Wrap lines at 'breakat' (if 'wrap' is set)
 vim.o.list           = true       -- Show helpful text indicators
