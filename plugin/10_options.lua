@@ -30,11 +30,11 @@ _G.is_mac = sysname == "Darwin"
 _G.is_win = sysname == "Windows_NT"
 
 if is_win then
-    vim.env.CC = "gcc"
-    vim.env.CXX = "g++"
-	vim.env.HTTP_PROXY = "http://127.0.0.1:7890"
-	vim.env.HTTPS_PROXY = "http://127.0.0.1:7890"
-	vim.opt.shell = "pwsh -NoLogo"
+  vim.env.CC = "gcc"
+  vim.env.CXX = "g++"
+  vim.env.HTTP_PROXY = "http://127.0.0.1:7890"
+  vim.env.HTTPS_PROXY = "http://127.0.0.1:7890"
+  vim.opt.shell = "pwsh -NoLogo"
 end
 
 -- disable provider check

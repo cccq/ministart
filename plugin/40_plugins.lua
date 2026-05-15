@@ -217,7 +217,7 @@ Config.now(function()
       light = 'latte',
       dark = 'frappe',
     },
-	term_colors = true,
+  term_colors = true,
   })
 
   vim.cmd('color catppuccin-nvim')
