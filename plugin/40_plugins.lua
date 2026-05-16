@@ -60,11 +60,11 @@ now_if_args(function()
     -- - Execute `:=require('nvim-treesitter').get_available()`
     -- - Visit 'SUPPORTED_LANGUAGES.md' file at
     --   https://github.com/nvim-treesitter/nvim-treesitter/blob/main
-    'bash',
     'json',
     'toml',
     'yaml',
-    'zsh',
+    (not is_win) and 'bash' or nil,
+    is_mac and 'zsh' or nil,
   }
   local isnt_installed = function(lang)
     return #vim.api.nvim_get_runtime_file('parser/' .. lang .. '.*', false) == 0
@@ -182,6 +182,22 @@ later(function() add({ 'https://github.com/rafamadriz/friendly-snippets' }) end)
 
 -- User Configuration =========================================================
 
+-- Easily manage LSP servers, DAP servers, linters, and formatters.
+now_if_args(function()
+  add({ 'https://github.com/mason-org/mason.nvim' })
+
+  add({ 'https://github.com/mason-org/mason-lspconfig.nvim' })
+
+  require('mason').setup()
+
+  require("mason-lspconfig").setup ({
+    ensure_installed = {
+      "lua_ls",
+      is_win and "autohotkey_lsp" or nil,
+    },
+  })
+end)
+
 -- Color scheme with automated light/dark mode transitions.
 Config.now(function()
   add({
@@ -194,7 +210,7 @@ Config.now(function()
       light = 'latte',
       dark = 'frappe',
     },
-  term_colors = true,
+    term_colors = true,
   })
 
   vim.cmd('color catppuccin-nvim')

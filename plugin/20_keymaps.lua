@@ -223,7 +223,6 @@ nmap_leader('oz', '<Cmd>lua MiniMisc.zoom()<CR>',          'Zoom toggle')
 
 -- q is for 'Quit'. Common usage:
 nmap_leader('qq', '<Cmd>confirm qall<CR>', 'Quit all')
-nmap_leader('qw', '<C-w>c', 'Quit window')
 
 -- s is for 'Session'. Common usage:
 -- - `<Leader>sn` - start new session
