@@ -135,7 +135,9 @@ later(function()
     },
     -- Map of filetype to formatters
     -- Make sure that necessary CLI tool is available
-    -- formatters_by_ft = { lua = { 'stylua' } },
+    formatters_by_ft = {
+      lua = { 'stylua' },
+    },
   })
 end)
 
@@ -193,7 +195,6 @@ now_if_args(function()
   require("mason-lspconfig").setup ({
     ensure_installed = {
       "lua_ls",
-      is_win and "autohotkey_lsp" or nil,
     },
   })
 end)
