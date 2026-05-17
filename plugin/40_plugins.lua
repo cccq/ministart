@@ -220,6 +220,12 @@ Config.now(function()
       dark = "frappe",
     },
     term_colors = true,
+    integrations = {
+      gitsigns = true,
+      mason = true,
+      mini = true,
+      treesitter_context = true,
+    },
   })
 
   vim.cmd("color catppuccin-nvim")
