@@ -236,16 +236,22 @@ later(function()
 
   local kopts = { noremap = true, silent = true }
 
-  vim.api.nvim_set_keymap('n', 'n',
-  [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
-  kopts)
-  vim.api.nvim_set_keymap('n', 'N',
-  [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
-  kopts)
-  vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-  vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], kopts)
-  vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], kopts)
-  vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], kopts)
+  vim.keymap.set("n", "n", function()
+    vim.cmd(("normal! %sn"):format(vim.v.count1))
+    require("hlslens").start()
+  end, kopts)
+
+  vim.keymap.set("n", "N", function()
+    vim.cmd(("normal! %sN"):format(vim.v.count1))
+    require("hlslens").start()
+  end, kopts)
+
+  for _, key in ipairs({ "*", "#", "g*", "g#" }) do
+    vim.keymap.set("n", key, function()
+      vim.api.nvim_feedkeys(key, "n", true)
+      require("hlslens").start()
+    end, kopts)
+  end
 end)
 
 -- Git integration: show signs for added, removed, and modified lines
