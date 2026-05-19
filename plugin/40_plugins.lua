@@ -62,11 +62,11 @@ now_if_args(function()
     -- - Execute `:=require('nvim-treesitter').get_available()`
     -- - Visit 'SUPPORTED_LANGUAGES.md' file at
     --   https://github.com/nvim-treesitter/nvim-treesitter/blob/main
+    "bash",
     "json",
     "toml",
     "yaml",
-    (not is_win) and "bash" or nil,
-    is_mac and "zsh" or nil,
+    "zsh",
   }
   local isnt_installed = function(lang)
     return #vim.api.nvim_get_runtime_file("parser/" .. lang .. ".*", false) == 0
@@ -143,6 +143,8 @@ later(function()
     -- Make sure that necessary CLI tool is available
     formatters_by_ft = {
       lua = { "stylua" },
+      sh = { "shfmt" },
+      zsh = { "shfmt" },
     },
   })
 end)
