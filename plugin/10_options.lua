@@ -25,14 +25,14 @@
 -- global flags, C/C++ compilers, network proxies, and shell preferences to
 -- ensure consistent performance and connectivity across devices.
 local sysname = vim.uv.os_uname().sysname
-_G.is_linux = sysname == 'Linux'
-_G.is_mac = sysname == 'Darwin'
-_G.is_win = sysname == 'Windows_NT'
+Config.is_linux = sysname == 'Linux'
+Config.is_mac = sysname == 'Darwin'
+Config.is_win = sysname == 'Windows_NT'
 
 vim.env.HTTP_PROXY = 'http://127.0.0.1:7890'
 vim.env.HTTPS_PROXY = 'http://127.0.0.1:7890'
 
-if is_win then
+if Config.is_win then
   vim.env.CC = 'gcc'
   vim.env.CXX = 'g++'
   vim.opt.shell = 'pwsh -NoLogo'

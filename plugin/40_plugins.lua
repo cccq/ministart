@@ -194,21 +194,6 @@ end)
 
 -- User Configuration =========================================================
 
--- Easily manage LSP servers, DAP servers, linters, and formatters.
-now_if_args(function()
-  add({ "https://github.com/mason-org/mason.nvim" })
-
-  add({ "https://github.com/mason-org/mason-lspconfig.nvim" })
-
-  require("mason").setup()
-
-  require("mason-lspconfig").setup({
-    ensure_installed = {
-      "lua_ls",
-    },
-  })
-end)
-
 -- Color scheme with automated light/dark mode transitions.
 Config.now(function()
   add({
@@ -229,6 +214,21 @@ Config.now(function()
       treesitter_context = true,
     },
   })
+
+-- Easily manage LSP servers, DAP servers, linters, and formatters.
+now_if_args(function()
+  add({ "https://github.com/mason-org/mason.nvim" })
+
+  add({ "https://github.com/mason-org/mason-lspconfig.nvim" })
+
+  require("mason").setup()
+
+  require("mason-lspconfig").setup({
+    ensure_installed = {
+      "lua_ls",
+    },
+  })
+end)
 
   vim.cmd("color catppuccin-nvim")
 end)
@@ -262,7 +262,7 @@ later(function()
   end
 end)
 
--- Git integration: show signs for added, removed, and modified lines
+-- Git integration: show signs for added, removed, and modified lines.
 later(function()
   add({ "https://github.com/lewis6991/gitsigns.nvim" })
   require("gitsigns").setup({
