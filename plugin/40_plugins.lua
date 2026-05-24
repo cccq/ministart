@@ -39,14 +39,12 @@ local now_if_args, later = Config.now_if_args, Config.later
 --   (see MiniMax README section for software requirements).
 now_if_args(function()
   -- Define hook to update tree-sitter parsers after plugin is updated
-  local ts_update = function()
-    vim.cmd("TSUpdate")
-  end
-  Config.on_packchanged("nvim-treesitter", { "update" }, ts_update, ":TSUpdate")
+  local ts_update = function() vim.cmd('TSUpdate') end
+  Config.on_packchanged('nvim-treesitter', { 'update' }, ts_update, ':TSUpdate')
 
   add({
-    "https://github.com/nvim-treesitter/nvim-treesitter",
-    "https://github.com/nvim-treesitter/nvim-treesitter-textobjects",
+    'https://github.com/nvim-treesitter/nvim-treesitter',
+    'https://github.com/nvim-treesitter/nvim-treesitter-textobjects',
   })
 
   -- Define languages which will have parsers installed and auto enabled
@@ -54,27 +52,23 @@ now_if_args(function()
   -- for the installation to finish before opening a file for added language(s).
   local languages = {
     -- These are already pre-installed with Neovim. Used as an example.
-    "lua",
-    "vimdoc",
-    "markdown",
+    'lua',
+    'vimdoc',
+    'markdown',
     -- Add here more languages with which you want to use tree-sitter
     -- To see available languages:
     -- - Execute `:=require('nvim-treesitter').get_available()`
     -- - Visit 'SUPPORTED_LANGUAGES.md' file at
     --   https://github.com/nvim-treesitter/nvim-treesitter/blob/main
-    "bash",
-    "json",
-    "toml",
-    "yaml",
-    "zsh",
+    'bash',
+    'json',
+    'toml',
+    'yaml',
+    'zsh',
   }
-  local isnt_installed = function(lang)
-    return #vim.api.nvim_get_runtime_file("parser/" .. lang .. ".*", false) == 0
-  end
+  local isnt_installed = function(lang) return #vim.api.nvim_get_runtime_file('parser/' .. lang .. '.*', false) == 0 end
   local to_install = vim.tbl_filter(isnt_installed, languages)
-  if #to_install > 0 then
-    require("nvim-treesitter").install(to_install)
-  end
+  if #to_install > 0 then require('nvim-treesitter').install(to_install) end
 
   -- Enable tree-sitter after opening a file for a target language
   local filetypes = {}
@@ -83,10 +77,8 @@ now_if_args(function()
       table.insert(filetypes, ft)
     end
   end
-  local ts_start = function(ev)
-    vim.treesitter.start(ev.buf)
-  end
-  Config.new_autocmd("FileType", filetypes, ts_start, "Start tree-sitter")
+  local ts_start = function(ev) vim.treesitter.start(ev.buf) end
+  Config.new_autocmd('FileType', filetypes, ts_start, 'Start tree-sitter')
 end)
 
 -- Language servers ===========================================================
@@ -108,7 +100,7 @@ end)
 -- Troubleshooting:
 -- - Run `:checkhealth vim.lsp` to see potential issues.
 now_if_args(function()
-  add({ "https://github.com/neovim/nvim-lspconfig" })
+  add({ 'https://github.com/neovim/nvim-lspconfig' })
 
   -- Use `:h vim.lsp.enable()` to automatically enable language server based on
   -- the rules provided by 'nvim-lspconfig'.
@@ -128,23 +120,23 @@ end)
 -- The 'stevearc/conform.nvim' plugin is a good and maintained solution for easier
 -- formatting setup.
 later(function()
-  add({ "https://github.com/stevearc/conform.nvim" })
+  add({ 'https://github.com/stevearc/conform.nvim' })
 
   -- See also:
   -- - `:h Conform`
   -- - `:h conform-options`
   -- - `:h conform-formatters`
-  require("conform").setup({
+  require('conform').setup({
     default_format_opts = {
       -- Allow formatting from LSP server if no dedicated formatter is available
-      lsp_format = "fallback",
+      lsp_format = 'fallback',
     },
     -- Map of filetype to formatters
     -- Make sure that necessary CLI tool is available
     formatters_by_ft = {
-      lua = { "stylua" },
-      sh = { "shfmt" },
-      zsh = { "shfmt" },
+      lua = { 'stylua' },
+      sh = { 'shfmt' },
+      zsh = { 'shfmt' },
     },
   })
 end)
@@ -158,9 +150,7 @@ end)
 -- snippet files. They are organized in 'snippets/' directory (mostly) per language.
 -- 'mini.snippets' is designed to work with it as seamlessly as possible.
 -- See `:h MiniSnippets.gen_loader.from_lang()`.
-later(function()
-  add({ "https://github.com/rafamadriz/friendly-snippets" })
-end)
+later(function() add({ 'https://github.com/rafamadriz/friendly-snippets' }) end)
 
 -- Honorable mentions =========================================================
 
@@ -197,14 +187,14 @@ end)
 -- Color scheme with automated light/dark mode transitions.
 Config.now(function()
   add({
-    { src = "https://github.com/catppuccin/nvim", name = "catppuccin" },
+    { src = 'https://github.com/catppuccin/nvim', name = 'catppuccin' },
   })
 
-  require("catppuccin").setup({
-    flavour = "auto", -- latte, frappe, macchiato, mocha
+  require('catppuccin').setup({
+    flavour = 'auto', -- latte, frappe, macchiato, mocha
     background = {
-      light = "latte",
-      dark = "frappe",
+      light = 'latte',
+      dark = 'frappe',
     },
     term_colors = true,
     integrations = {
@@ -215,59 +205,59 @@ Config.now(function()
     },
   })
 
-  vim.cmd("color catppuccin-nvim")
+  vim.cmd('color catppuccin-nvim')
 end)
 
 -- Easily manage LSP servers, DAP servers, linters, and formatters.
 now_if_args(function()
-  add({ "https://github.com/mason-org/mason.nvim" })
+  add({ 'https://github.com/mason-org/mason.nvim' })
 
-  add({ "https://github.com/mason-org/mason-lspconfig.nvim" })
+  add({ 'https://github.com/mason-org/mason-lspconfig.nvim' })
 
-  require("mason").setup()
+  require('mason').setup()
 
-  require("mason-lspconfig").setup({
+  require('mason-lspconfig').setup({
     ensure_installed = {
-      "lua_ls",
+      'lua_ls',
     },
   })
 end)
 
 -- Better glance at matched information, seamlessly jump between matched instances.
 later(function()
-  add({ "https://github.com/kevinhwang91/nvim-hlslens" })
+  add({ 'https://github.com/kevinhwang91/nvim-hlslens' })
 
-  require("hlslens").setup({
+  require('hlslens').setup({
     calm_down = true,
     nearest_only = true,
   })
 
   local kopts = { noremap = true, silent = true }
 
-  vim.keymap.set("n", "n", function()
-    vim.cmd(("normal! %sn"):format(vim.v.count1))
-    require("hlslens").start()
+  vim.keymap.set('n', 'n', function()
+    vim.cmd(('normal! %sn'):format(vim.v.count1))
+    require('hlslens').start()
   end, kopts)
 
-  vim.keymap.set("n", "N", function()
-    vim.cmd(("normal! %sN"):format(vim.v.count1))
-    require("hlslens").start()
+  vim.keymap.set('n', 'N', function()
+    vim.cmd(('normal! %sN'):format(vim.v.count1))
+    require('hlslens').start()
   end, kopts)
 
-  for _, key in ipairs({ "*", "#", "g*", "g#" }) do
-    vim.keymap.set("n", key, function()
-      vim.api.nvim_feedkeys(key, "n", true)
-      require("hlslens").start()
+  for _, key in ipairs({ '*', '#', 'g*', 'g#' }) do
+    vim.keymap.set('n', key, function()
+      vim.api.nvim_feedkeys(key, 'n', true)
+      require('hlslens').start()
     end, kopts)
   end
 end)
 
 -- Git integration: show signs for added, removed, and modified lines.
 later(function()
-  add({ "https://github.com/lewis6991/gitsigns.nvim" })
-  require("gitsigns").setup({
+  add({ 'https://github.com/lewis6991/gitsigns.nvim' })
+  require('gitsigns').setup({
     on_attach = function(bufnr)
-      local gitsigns = require("gitsigns")
+      local gitsigns = require('gitsigns')
 
       local function map(mode, l, r, desc, opts)
         opts = opts or {}
@@ -277,60 +267,50 @@ later(function()
       end
 
       -- Navigation
-      map("n", "]c", function()
+      map('n', ']c', function()
         if vim.wo.diff then
-          vim.cmd.normal({ "]c", bang = true })
+          vim.cmd.normal({ ']c', bang = true })
         else
-          gitsigns.nav_hunk("next")
+          gitsigns.nav_hunk('next')
         end
-      end, "Next Hunk")
+      end, 'Next Hunk')
 
-      map("n", "[c", function()
+      map('n', '[c', function()
         if vim.wo.diff then
-          vim.cmd.normal({ "[c", bang = true })
+          vim.cmd.normal({ '[c', bang = true })
         else
-          gitsigns.nav_hunk("prev")
+          gitsigns.nav_hunk('prev')
         end
-      end, "Prev Hunk")
+      end, 'Prev Hunk')
 
       -- Actions
-      map("n", "<leader>hs", gitsigns.stage_hunk, "Stage Hunk")
-      map("n", "<leader>hr", gitsigns.reset_hunk, "Reset Hunk")
+      map('n', '<leader>hs', gitsigns.stage_hunk, 'Stage Hunk')
+      map('n', '<leader>hr', gitsigns.reset_hunk, 'Reset Hunk')
 
-      map("v", "<leader>hs", function()
-        gitsigns.stage_hunk({ vim.fn.line("."), vim.fn.line("v") })
-      end, "Stage Hunk")
+      map('v', '<leader>hs', function() gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') }) end, 'Stage Hunk')
 
-      map("v", "<leader>hr", function()
-        gitsigns.reset_hunk({ vim.fn.line("."), vim.fn.line("v") })
-      end, "Reset Hunk")
+      map('v', '<leader>hr', function() gitsigns.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') }) end, 'Reset Hunk')
 
-      map("n", "<leader>hS", gitsigns.stage_buffer, "Stage Buffer")
-      map("n", "<leader>hR", gitsigns.reset_buffer, "Reset Buffer")
-      map("n", "<leader>hp", gitsigns.preview_hunk, "Preview Hunk")
-      map("n", "<leader>hi", gitsigns.preview_hunk_inline, "Preview Hunk Inline")
+      map('n', '<leader>hS', gitsigns.stage_buffer, 'Stage Buffer')
+      map('n', '<leader>hR', gitsigns.reset_buffer, 'Reset Buffer')
+      map('n', '<leader>hp', gitsigns.preview_hunk, 'Preview Hunk')
+      map('n', '<leader>hi', gitsigns.preview_hunk_inline, 'Preview Hunk Inline')
 
-      map("n", "<leader>hb", function()
-        gitsigns.blame_line({ full = true })
-      end, "Blame Line (Full)")
+      map('n', '<leader>hb', function() gitsigns.blame_line({ full = true }) end, 'Blame Line (Full)')
 
-      map("n", "<leader>hd", gitsigns.diffthis, "Diff This")
+      map('n', '<leader>hd', gitsigns.diffthis, 'Diff This')
 
-      map("n", "<leader>hD", function()
-        gitsigns.diffthis("~")
-      end, "Diff This ~")
+      map('n', '<leader>hD', function() gitsigns.diffthis('~') end, 'Diff This ~')
 
-      map("n", "<leader>hQ", function()
-        gitsigns.setqflist("all")
-      end, "Set Quickfix List (All)")
-      map("n", "<leader>hq", gitsigns.setqflist, "Set Quickfix List")
+      map('n', '<leader>hQ', function() gitsigns.setqflist('all') end, 'Set Quickfix List (All)')
+      map('n', '<leader>hq', gitsigns.setqflist, 'Set Quickfix List')
 
       -- Toggles
-      map("n", "<leader>tb", gitsigns.toggle_current_line_blame, "Toggle Line Blame")
-      map("n", "<leader>tw", gitsigns.toggle_word_diff, "Toggle Word Diff")
+      map('n', '<leader>tb', gitsigns.toggle_current_line_blame, 'Toggle Line Blame')
+      map('n', '<leader>tw', gitsigns.toggle_word_diff, 'Toggle Word Diff')
 
       -- Text object
-      map({ "o", "x" }, "ih", gitsigns.select_hunk, "Select Hunk")
+      map({ 'o', 'x' }, 'ih', gitsigns.select_hunk, 'Select Hunk')
     end,
   })
 end)
