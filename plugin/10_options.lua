@@ -29,9 +29,6 @@ Config.is_linux = sysname == 'Linux'
 Config.is_mac = sysname == 'Darwin'
 Config.is_win = sysname == 'Windows_NT'
 
-vim.env.HTTP_PROXY = 'http://127.0.0.1:7890'
-vim.env.HTTPS_PROXY = 'http://127.0.0.1:7890'
-
 if Config.is_win then
   vim.env.CC = 'gcc'
   vim.env.CXX = 'g++'
@@ -85,6 +82,7 @@ vim.o.winborder      = 'single'   -- Use border in floating windows
 vim.o.wrap           = false      -- Don't visually wrap lines (toggle with \w)
 
 vim.o.cursorlineopt  = 'screenline,number' -- Show cursor line per screen line
+vim.o.scrolloff      = 10         -- Keep cursor 5 lines away from screen edges
 
 -- Special UI symbols. More is set via 'mini.basics' later.
 vim.o.fillchars = 'eob: ,fold:╌'

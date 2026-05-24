@@ -1,5 +1,7 @@
 -- neovide configuration
 if vim.g.neovide then
+  vim.env.HTTP_PROXY = "http://127.0.0.1:7890"
+  vim.env.HTTPS_PROXY = "http://127.0.0.1:7890"
   vim.opt.linespace = 2
   vim.g.neovide_refresh_rate = 60
   vim.g.neovide_confirm_quit = true

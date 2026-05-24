@@ -215,6 +215,9 @@ Config.now(function()
     },
   })
 
+  vim.cmd("color catppuccin-nvim")
+end)
+
 -- Easily manage LSP servers, DAP servers, linters, and formatters.
 now_if_args(function()
   add({ "https://github.com/mason-org/mason.nvim" })
@@ -228,9 +231,6 @@ now_if_args(function()
       "lua_ls",
     },
   })
-end)
-
-  vim.cmd("color catppuccin-nvim")
 end)
 
 -- Better glance at matched information, seamlessly jump between matched instances.
