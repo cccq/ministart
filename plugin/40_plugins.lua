@@ -194,7 +194,7 @@ Config.now(function()
     flavour = 'auto', -- latte, frappe, macchiato, mocha
     background = {
       light = 'latte',
-      dark = 'frappe',
+      dark = 'mocha',
     },
     term_colors = true,
     integrations = {
