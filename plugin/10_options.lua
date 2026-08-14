@@ -20,21 +20,6 @@
 -- reading. Consider preserving this or remove `-- stylua` lines to autoformat.
 
 -- Patches ====================================================================
-
--- System-specific initialization: detect the operating system and configure
--- global flags, C/C++ compilers, network proxies, and shell preferences to
--- ensure consistent performance and connectivity across devices.
-local sysname = vim.uv.os_uname().sysname
-Config.is_linux = sysname == 'Linux'
-Config.is_mac = sysname == 'Darwin'
-Config.is_win = sysname == 'Windows_NT'
-
-if Config.is_win then
-  vim.env.CC = 'gcc'
-  vim.env.CXX = 'g++'
-  vim.opt.shell = 'pwsh -NoLogo'
-end
-
 -- disable provider check
 vim.g.loaded_node_provider = 0
 vim.g.loaded_perl_provider = 0
@@ -54,10 +39,6 @@ vim.o.switchbuf   = 'usetab'       -- Use already opened buffers when switching
 vim.o.undofile    = true           -- Enable persistent undo
 
 vim.o.shada = "'100,<50,s10,:1000,/100,@100,h" -- Limit ShaDa file (for startup)
-
--- Enable all filetype plugins and syntax (if not enabled, for better startup)
-vim.cmd('filetype plugin indent on')
-if vim.fn.exists('syntax_on') ~= 1 then vim.cmd('syntax enable') end
 
 -- UI =========================================================================
 vim.o.breakindent    = true       -- Indent wrapped lines to match line start
