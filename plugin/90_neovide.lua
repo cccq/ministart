@@ -1,7 +1,5 @@
 -- neovide configuration
 if vim.g.neovide then
-  vim.env.HTTP_PROXY = 'http://127.0.0.1:7890'
-  vim.env.HTTPS_PROXY = 'http://127.0.0.1:7890'
   -- display
   vim.opt.linespace = 2
   vim.g.neovide_window_blurred = true
