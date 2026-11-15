@@ -25,6 +25,10 @@ end
 nmap('[p', '<Cmd>exe "iput! " . v:register<CR>', 'Paste Above')
 nmap(']p', '<Cmd>exe "iput "  . v:register<CR>', 'Paste Below')
 
+-- Jump to previous/next diff change (replaces built-in `[c`/`]c` overridden by `mini.bracketed`)
+nmap(']e', '<Cmd>normal! ]c<CR>', 'Diff change forword')
+nmap('[e', '<Cmd>normal! [c<CR>', 'Diff change backword')
+
 -- Many general mappings are created by 'mini.basics'. See 'plugin/30_mini.lua'
 
 -- stylua: ignore start
